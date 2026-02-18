@@ -3,10 +3,14 @@ import './App.css'
 import PersonList from './components/PersonList'
 import PersonForm from './components/PersonForm'
 import PersonDetails from './components/PersonDetails'
+import About from './pages/About'
 import type { Person } from './types/Person'
 import { personService } from './services/personService'
 
+type View = 'home' | 'about';
+
 function App() {
+  const [currentView, setCurrentView] = useState<View>('home')
   const [persons, setPersons] = useState<Person[]>([])
   const [editingPerson, setEditingPerson] = useState<Person | null>(null)
   const [viewingPerson, setViewingPerson] = useState<Person | null>(null)
@@ -14,8 +18,10 @@ function App() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    loadPersons()
-  }, [])
+    if (currentView === 'home') {
+      loadPersons()
+    }
+  }, [currentView])
 
   const loadPersons = async () => {
     setLoading(true)
@@ -90,32 +96,57 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Person Management</h1>
-      {error && (
-        <div className="error-message">
-          {error}
+      <nav className="app-nav">
+        <div className="nav-brand">
+          <h1>Person Management</h1>
         </div>
-      )}
-      <div className="container">
-        <PersonForm
-          key={editingPerson?.id || 'new'}
-          onSubmit={handleCreateOrUpdate}
-          editingPerson={editingPerson}
-          onCancel={handleCancelEdit}
-        />
-        <PersonList
-          persons={persons}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          onViewCities={handleViewCities}
-          loading={loading}
-        />
-      </div>
-      {viewingPerson && (
-        <PersonDetails
-          person={viewingPerson}
-          onClose={handleCloseCities}
-        />
+        <div className="nav-links">
+          <button 
+            className={`nav-link ${currentView === 'home' ? 'active' : ''}`}
+            onClick={() => setCurrentView('home')}
+          >
+            🏠 Home
+          </button>
+          <button 
+            className={`nav-link ${currentView === 'about' ? 'active' : ''}`}
+            onClick={() => setCurrentView('about')}
+          >
+            ℹ️ About
+          </button>
+        </div>
+      </nav>
+
+      {currentView === 'about' ? (
+        <About />
+      ) : (
+        <>
+          {error && (
+            <div className="error-message">
+              {error}
+            </div>
+          )}
+          <div className="container">
+            <PersonForm
+              key={editingPerson?.id || 'new'}
+              onSubmit={handleCreateOrUpdate}
+              editingPerson={editingPerson}
+              onCancel={handleCancelEdit}
+            />
+            <PersonList
+              persons={persons}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              onViewCities={handleViewCities}
+              loading={loading}
+            />
+          </div>
+          {viewingPerson && (
+            <PersonDetails
+              person={viewingPerson}
+              onClose={handleCloseCities}
+            />
+          )}
+        </>
       )}
     </div>
   )

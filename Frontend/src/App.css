@@ -1,13 +1,63 @@
 .app {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+}
+
+/* Navigation */
+.app-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 0;
+}
+
+.nav-brand h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-link {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.nav-link.active {
+  background: white;
+  color: #667eea;
+  border-color: white;
 }
 
 h1 {
   text-align: center;
-  color: #333;
-  margin-bottom: 2rem;
+  color: white;
+  margin: 0;
+}
+
+.container {
+  padding: 2rem;
 }
 
 .error-message {
@@ -15,7 +65,7 @@ h1 {
   color: #c33;
   padding: 1rem;
   border-radius: 4px;
-  margin-bottom: 1rem;
+  margin: 1rem 2rem;
   border: 1px solid #fcc;
   text-align: center;
 }
@@ -181,8 +231,29 @@ tr:hover {
 }
 
 @media (max-width: 768px) {
+  .app-nav {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .nav-brand h1 {
+    font-size: 22px;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav-link {
+    flex: 1;
+    text-align: center;
+  }
+
   .container {
     grid-template-columns: 1fr;
+    padding: 1rem;
   }
 
   table {
